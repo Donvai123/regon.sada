@@ -5,6 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        .marquee {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    background: #111827;
+    padding: 10px 0;
+}
+
+.marquee-text {
+    display: inline-block;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+
+    animation: moveText 8s linear infinite;
+}
+
+@keyframes moveText {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
     * {
     box-sizing: border-box;
     margin: 0;
@@ -77,7 +103,11 @@ body {
 }
 </head>
 <body>
-    <div1 class="left"><marquee behavior="right" direction="right">This page is under process</marquee></div1>
+   <div class="marquee">
+    <div class="marquee-text">
+        Welcome to my website 🚀
+    </div>
+</div>
     <div class="neww">
         <label for="username">username</label>
         <input type="text" id="username" placeholder="enter your username here>
