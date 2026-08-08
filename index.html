@@ -1,4 +1,10 @@
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
     * {
         box-sizing: border-box;
         margin: 0;
@@ -70,3 +76,31 @@
         box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
     }
 </style>
+</head>
+<body>
+    <div class="neww">
+        <label for="username">username</label>
+        <input type="text" id="username" placeholder="enter your username here>
+        <label for="password">password</label>
+        <input type="password" id="password" placeholder="enter your password here">
+        <button type="button" onclick="login()">login</button>
+    </div>
+    <script>
+        function login(){
+            let username=document.getElementById("username").value;
+            let password=document.getElementById("password").value;
+            if (password ==="123123@" && username==="Admin"){
+                alert("This page is under maintanace");
+            }
+             // else if (password!="" && username=""){
+             //    alert("please enter username and password")
+
+             //    }
+                else{
+                    alert("bahenchod! wrong userid  or password")
+                }
+        }
+        login()
+    </script>
+</body>
+</html>
