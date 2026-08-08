@@ -13,6 +13,28 @@
     padding: 10px 0;
 }
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b, #312e81);
+}
+
+/* ================= MARQUEE ================= */
+
+.marquee {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    background: #111827;
+    padding: 12px 0;
+}
+
 .marquee-text {
     display: inline-block;
     color: white;
@@ -31,20 +53,8 @@
         transform: translateX(-100%);
     }
 }
-    * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
 
-body {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #0f172a, #1e293b, #312e81);
-}
+/* ================= LOGIN BOX ================= */
 
 .login-box {
     width: 350px;
@@ -54,6 +64,8 @@ body {
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+
+    margin: 100px auto;
 }
 
 .login-box h1 {
