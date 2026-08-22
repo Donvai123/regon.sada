@@ -9,10 +9,6 @@ import {
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
-// ========================================
-// FIREBASE CONFIG
-// ========================================
-
 const firebaseConfig = {
 
     apiKey:
@@ -36,21 +32,16 @@ const firebaseConfig = {
 };
 
 
-// ========================================
-// INITIALIZE
-// ========================================
-
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
 
 
-// ========================================
+// ===============================
 // CHECK LOGIN
-// ========================================
+// ===============================
 
 onAuthStateChanged(auth, (user) => {
-
-    console.log("Current user:", user);
 
     if (!user) {
 
@@ -59,8 +50,6 @@ onAuthStateChanged(auth, (user) => {
         return;
     }
 
-
-    // Email verified check
 
     if (!user.emailVerified) {
 
@@ -74,9 +63,9 @@ onAuthStateChanged(auth, (user) => {
 });
 
 
-// ========================================
+// ===============================
 // LOGOUT
-// ========================================
+// ===============================
 
 const logoutBtn =
     document.getElementById("logoutBtn");
@@ -87,40 +76,35 @@ console.log("Logout button:", logoutBtn);
 
 if (logoutBtn) {
 
-    logoutBtn.addEventListener(
-        "click",
-        async () => {
+    logoutBtn.addEventListener("click", async () => {
 
-            console.log("Logout clicked");
+        console.log("Logout clicked");
 
-            try {
+        try {
 
-                await signOut(auth);
+            await signOut(auth);
 
-                console.log("Logout successful");
+            console.log("Logout successful");
 
-                window.location.replace("../login/");
+            window.location.replace("../login/");
 
-            }
+        } catch (error) {
 
-            catch (error) {
-
-                console.error(
-                    "Logout error:",
-                    error
-                );
-
-            }
+            console.error(
+                "Logout error:",
+                error
+            );
 
         }
-    );
+
+    });
 
 }
 
 
-// ========================================
+// ===============================
 // MOBILE MENU
-// ========================================
+// ===============================
 
 const menuBtn =
     document.getElementById("menuBtn");
@@ -131,13 +115,10 @@ const navMenu =
 
 if (menuBtn && navMenu) {
 
-    menuBtn.addEventListener(
-        "click",
-        () => {
+    menuBtn.addEventListener("click", () => {
 
-            navMenu.classList.toggle("active");
+        navMenu.classList.toggle("active");
 
-        }
-    );
+    });
 
 }
