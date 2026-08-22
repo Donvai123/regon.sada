@@ -9,10 +9,6 @@ import {
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
-// ===============================
-// FIREBASE CONFIG
-// ===============================
-
 const firebaseConfig = {
 
     apiKey:
@@ -36,10 +32,6 @@ const firebaseConfig = {
 };
 
 
-// ===============================
-// INITIALIZE FIREBASE
-// ===============================
-
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
@@ -53,21 +45,12 @@ onAuthStateChanged(auth, (user) => {
 
     if (!user) {
 
-        // Login nahi hai
         window.location.href = "../login/";
 
         return;
     }
 
-
-    // Email verification check
-
-    if (!user.emailVerified) {
-
-        window.location.href = "../login/";
-
-        return;
-    }
+    console.log("User logged in:", user.email);
 
 });
 
@@ -90,7 +73,6 @@ if (logoutBtn) {
 
                 await signOut(auth);
 
-                // Logout ke baad login page
                 window.location.href =
                     "../login/";
 
@@ -128,11 +110,10 @@ if (menuBtn && navMenu) {
         "click",
         () => {
 
-            navMenu.classList.toggle(
-                "active"
-            );
+            navMenu.classList.toggle("active");
 
         }
+
     );
 
 }
