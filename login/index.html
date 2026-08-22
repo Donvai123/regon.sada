@@ -199,24 +199,18 @@ body {
 // FIREBASE SDK
 // ========================================
 
-import {
-    initializeApp
-}
+import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
 
 import {
     getAuth,
-    signInWithEmailAndPassword,
-    sendEmailVerification,
+    onAuthStateChanged,
     signOut
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
-// ========================================
-// FIREBASE CONFIG
-// ========================================
+// Firebase config
 
 const firebaseConfig = {
 
@@ -241,10 +235,6 @@ const firebaseConfig = {
 };
 
 
-// ========================================
-// INITIALIZE FIREBASE
-// ========================================
-
 const app =
     initializeApp(firebaseConfig);
 
@@ -252,226 +242,100 @@ const auth =
     getAuth(app);
 
 
-// ========================================
-// GET HTML ELEMENTS
-// ========================================
+// ===============================
+// CHECK LOGIN
+// ===============================
 
-const loginForm =
-    document.getElementById("loginForm");
+onAuthStateChanged(auth, (user) => {
 
-const msg =
-    document.getElementById("msg");
+    if (!user) {
 
+        window.location.href =
+            "../";
 
-// ========================================
-// LOGIN
-// ========================================
-
-loginForm.addEventListener(
-    "submit",
-    async function(e) {
-
-        e.preventDefault();
+        return;
+    }
 
 
-        const email =
-            document
-            .getElementById("username")
-            .value
-            .trim();
+    // Email verification check
+
+    if (!user.emailVerified) {
+
+        signOut(auth);
+
+        window.location.href =
+            "../";
+
+        return;
+    }
+
+});
 
 
-        const password =
-            document
-            .getElementById("password")
-            .value;
+// ===============================
+// LOGOUT
+// ===============================
+
+const logoutBtn =
+    document.getElementById("logoutBtn");
 
 
-        msg.innerText =
-            "Checking login...";
+if (logoutBtn) {
 
-        msg.style.color =
-            "white";
+    logoutBtn.addEventListener(
+        "click",
+        async () => {
 
-
-        try {
-
-            // =================================
-            // FIREBASE LOGIN
-            // =================================
-
-            const userCredential =
-                await signInWithEmailAndPassword(
-                    auth,
-                    email,
-                    password
-                );
-
-
-            const user =
-                userCredential.user;
-
-
-            console.log(
-                "Email:",
-                user.email
-            );
-
-            console.log(
-                "Email Verified:",
-                user.emailVerified
-            );
-
-
-            // =================================
-            // EMAIL VERIFICATION CHECK
-            // =================================
-
-            if (!user.emailVerified) {
-
-                msg.innerText =
-                    "Your email is not verified. Sending verification email...";
-
-                msg.style.color =
-                    "orange";
-
-
-                // Send verification email
-
-                await sendEmailVerification(user);
-
-
-                msg.innerText =
-                    "Verification email sent! Please check your Gmail and verify your email.";
-
-                msg.style.color =
-                    "orange";
-
-
-                // Logout user
+            try {
 
                 await signOut(auth);
 
-
-                return;
+                // Login page
+                window.location.href =
+                    "../";
 
             }
 
+            catch (error) {
 
-            // =================================
-            // VERIFIED USER
-            // =================================
+                console.error(
+                    "Logout error:",
+                    error
+                );
 
-            msg.innerText =
-                "Login successful!";
-
-            msg.style.color =
-                "lightgreen";
-
-
-            setTimeout(() => {
-
-                window.location.href =
-                    "../afterlogin/";
-
-            }, 500);
+            }
 
         }
+    );
+
+}
 
 
-        catch(error) {
+// ===============================
+// MOBILE MENU
+// ===============================
 
-            console.error(
-                "Login error:",
-                error
+const menuBtn =
+    document.getElementById("menuBtn");
+
+const navMenu =
+    document.getElementById("navMenu");
+
+
+if (menuBtn && navMenu) {
+
+    menuBtn.addEventListener(
+        "click",
+        () => {
+
+            navMenu.classList.toggle(
+                "active"
             );
 
-
-            // =================================
-            // ERROR HANDLING
-            // =================================
-
-            if (
-                error.code ===
-                "auth/invalid-credential"
-            ) {
-
-                msg.innerText =
-                    "Wrong Email or Password.";
-
-            }
-
-
-            else if (
-                error.code ===
-                "auth/user-not-found"
-            ) {
-
-                msg.innerText =
-                    "User not found.";
-
-            }
-
-
-            else if (
-                error.code ===
-                "auth/wrong-password"
-            ) {
-
-                msg.innerText =
-                    "Wrong Password.";
-
-            }
-
-
-            else if (
-                error.code ===
-                "auth/too-many-requests"
-            ) {
-
-                msg.innerText =
-                    "Too many attempts. Please try again later.";
-
-            }
-
-
-            else if (
-                error.code ===
-                "auth/network-request-failed"
-            ) {
-
-                msg.innerText =
-                    "Network error. Check your internet.";
-
-            }
-
-
-            else if (
-                error.code ===
-                "auth/quota-exceeded"
-            ) {
-
-                msg.innerText =
-                    "Email sending limit reached. Please try later.";
-
-            }
-
-
-            else {
-
-                msg.innerText =
-                    "Error: " + error.message;
-
-            }
-
-
-            msg.style.color =
-                "red";
-
         }
+    );
 
-    }
-);
+}
 
 </script>
 
