@@ -102,13 +102,13 @@ loginForm.addEventListener(
                 );
 
 
-            const user =
-                userCredential.user;
+            const user = userCredential.user;
+
+console.log("EMAIL:", user.email);
+console.log("EMAIL VERIFIED:", user.emailVerified);
 
 
-            // ==============================
-            // CHECK EMAIL VERIFICATION
-            // ==============================
+            
 
             if (!user.emailVerified) {
 
