@@ -3,11 +3,16 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
     getAuth,
-    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    sendEmailVerification,
     signOut
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
+
+// ========================================
+// FIREBASE CONFIG
+// ========================================
 
 const firebaseConfig = {
 
@@ -32,88 +37,200 @@ const firebaseConfig = {
 };
 
 
+// ========================================
+// INITIALIZE FIREBASE
+// ========================================
+
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
 
-// ===============================
-// CHECK LOGIN
-// ===============================
+// ========================================
+// HTML ELEMENTS
+// ========================================
 
-onAuthStateChanged(auth, (user) => {
+const loginForm =
+    document.getElementById("loginForm");
 
-    if (!user) {
-
-        window.location.href = "../login/";
-
-        return;
-    }
-
-    console.log("User logged in:", user.email);
-
-});
+const msg =
+    document.getElementById("msg");
 
 
-// ===============================
-// LOGOUT
-// ===============================
+// ========================================
+// LOGIN
+// ========================================
 
-const logoutBtn =
-    document.getElementById("logoutBtn");
+loginForm.addEventListener(
+    "submit",
+    async function(e) {
+
+        e.preventDefault();
 
 
-if (logoutBtn) {
+        const email =
+            document
+            .getElementById("username")
+            .value
+            .trim();
 
-    logoutBtn.addEventListener(
-        "click",
-        async () => {
 
-            try {
+        const password =
+            document
+            .getElementById("password")
+            .value;
+
+
+        msg.innerText =
+            "Checking login...";
+
+        msg.style.color =
+            "white";
+
+
+        try {
+
+            // ==============================
+            // FIREBASE LOGIN
+            // ==============================
+
+            const userCredential =
+                await signInWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+
+            const user =
+                userCredential.user;
+
+
+            // ==============================
+            // CHECK EMAIL VERIFICATION
+            // ==============================
+
+            if (!user.emailVerified) {
+
+                // Send verification email
+
+                await sendEmailVerification(user);
+
+
+                msg.innerText =
+                    "Verification email sent! Please check your inbox and verify your email.";
+
+                msg.style.color =
+                    "orange";
+
+
+                // Logout until email is verified
 
                 await signOut(auth);
 
+
+                return;
+            }
+
+
+            // ==============================
+            // EMAIL VERIFIED
+            // ==============================
+
+            msg.innerText =
+                "Login successful!";
+
+            msg.style.color =
+                "lightgreen";
+
+
+            // Go to protected page
+
+            setTimeout(() => {
+
                 window.location.href =
-                    "../login/";
+                    "../afterlogin/";
 
-            }
+            }, 500);
 
-            catch (error) {
-
-                console.error(
-                    "Logout error:",
-                    error
-                );
-
-            }
-
-        }
-    );
-
-}
-
-
-// ===============================
-// MOBILE MENU
-// ===============================
-
-const menuBtn =
-    document.getElementById("menuBtn");
-
-const navMenu =
-    document.getElementById("navMenu");
-
-
-if (menuBtn && navMenu) {
-
-    menuBtn.addEventListener(
-        "click",
-        () => {
-
-            navMenu.classList.toggle("active");
 
         }
 
-    );
 
-}
+        catch(error) {
+
+            console.error(
+                "Login error:",
+                error
+            );
+
+
+            // ==============================
+            // ERROR MESSAGES
+            // ==============================
+
+            if (
+                error.code ===
+                "auth/invalid-credential"
+            ) {
+
+                msg.innerText =
+                    "Wrong Email or Password.";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/user-not-found"
+            ) {
+
+                msg.innerText =
+                    "User not found.";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/wrong-password"
+            ) {
+
+                msg.innerText =
+                    "Wrong Password.";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/too-many-requests"
+            ) {
+
+                msg.innerText =
+                    "Too many attempts. Please try again later.";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/network-request-failed"
+            ) {
+
+                msg.innerText =
+                    "Network error. Please check your internet.";
+
+            }
+
+            else {
+
+                msg.innerText =
+                    "Something went wrong. Please try again.";
+
+            }
+
+
+            msg.style.color =
+                "red";
+
+        }
+
+    }
+);
