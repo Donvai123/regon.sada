@@ -10,7 +10,6 @@ content="width=device-width, initial-scale=1.0">
 
 <title>Welcome to Donvai!</title>
 
-
 <style>
 
 * {
@@ -20,47 +19,88 @@ content="width=device-width, initial-scale=1.0">
     font-family: 'Segoe UI', sans-serif;
 }
 
-
 body {
-
     height: 100vh;
 
     display: flex;
-
     justify-content: center;
-
     align-items: center;
 
-    background:
-    url('https://images.unsplash.com/photo-1506744038136-46273834b3fb')
-    no-repeat center center/cover;
+    position: relative;
+    overflow: hidden;
 
+    background: #000;
 }
 
 
+/* ========================================
+   GITHUB BACKGROUND IMAGE
+   ======================================== */
+
+body::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        url("https://raw.githubusercontent.com/Donvai123/regon.sada/main/login/20260827_182233.jpg")
+        no-repeat center center / cover;
+
+    opacity: 0.55;
+
+    z-index: 0;
+}
+
+
+/* Dark transparent overlay */
+
+body::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.25);
+
+    z-index: 0;
+}
+
+
+/* ========================================
+   LOGIN BOX
+   ======================================== */
+
 .login-box {
+
+    position: relative;
+
+    z-index: 1;
 
     width: 320px;
 
     padding: 30px;
 
     background:
-    rgba(255, 255, 255, 0.15);
+        rgba(255, 255, 255, 0.15);
 
     backdrop-filter: blur(10px);
 
     border-radius: 15px;
 
     border:
-    1px solid rgba(255, 255, 255, 0.3);
+        1px solid rgba(255, 255, 255, 0.3);
 
     box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.3);
+        0 8px 32px rgba(0, 0, 0, 0.3);
 
     text-align: center;
 
     color: white;
-
 }
 
 
@@ -82,7 +122,7 @@ body {
     margin: 10px 0;
 
     background:
-    rgba(255, 255, 255, 0.2);
+        rgba(255, 255, 255, 0.2);
 
     border: none;
 
@@ -100,7 +140,7 @@ body {
 .login-box input::placeholder {
 
     color:
-    rgba(255, 255, 255, 0.7);
+        rgba(255, 255, 255, 0.7);
 
 }
 
@@ -114,7 +154,7 @@ body {
     margin-top: 15px;
 
     background:
-    rgba(0, 123, 255, 0.8);
+        rgba(0, 123, 255, 0.8);
 
     border: none;
 
@@ -134,7 +174,7 @@ body {
 .login-box button:hover {
 
     background:
-    rgba(0, 123, 255, 1);
+        rgba(0, 123, 255, 1);
 
 }
 
@@ -161,7 +201,6 @@ body {
 
     <h2>Login</h2>
 
-
     <form id="loginForm">
 
         <input
@@ -171,7 +210,6 @@ body {
             required
         >
 
-
         <input
             type="password"
             id="password"
@@ -179,26 +217,18 @@ body {
             required
         >
 
-
         <button type="submit">
             Log In
         </button>
 
     </form>
 
-
     <p id="msg"></p>
 
 </div>
 
 
-
 <script type="module">
-
-
-// ========================================
-// FIREBASE SDK
-// ========================================
 
 import {
     initializeApp
@@ -214,11 +244,6 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-
-
-// ========================================
-// FIREBASE CONFIG
-// ========================================
 
 const firebaseConfig = {
 
@@ -243,36 +268,19 @@ const firebaseConfig = {
 };
 
 
-
-// ========================================
-// INITIALIZE FIREBASE
-// ========================================
-
 const app =
     initializeApp(firebaseConfig);
-
 
 const auth =
     getAuth(app);
 
 
-
-// ========================================
-// HTML ELEMENTS
-// ========================================
-
 const loginForm =
     document.getElementById("loginForm");
-
 
 const msg =
     document.getElementById("msg");
 
-
-
-// ========================================
-// LOGIN FORM
-// ========================================
 
 loginForm.addEventListener(
     "submit",
@@ -280,46 +288,25 @@ loginForm.addEventListener(
 
         e.preventDefault();
 
-
-
-        // =================================
-        // GET EMAIL
-        // =================================
-
         const email =
             document
             .getElementById("username")
             .value
             .trim();
 
-
-
-        // =================================
-        // GET PASSWORD
-        // =================================
-
         const password =
             document
             .getElementById("password")
             .value;
 
-
-
         msg.innerText =
             "Checking login...";
-
 
         msg.style.color =
             "white";
 
 
-
         try {
-
-
-            // =================================
-            // FIREBASE LOGIN
-            // =================================
 
             const userCredential =
                 await signInWithEmailAndPassword(
@@ -328,85 +315,35 @@ loginForm.addEventListener(
                     password
                 );
 
-
-
             const user =
                 userCredential.user;
 
 
-
-            console.log(
-                "Logged in user:",
-                user.email
-            );
-
-
-            console.log(
-                "Email verified:",
-                user.emailVerified
-            );
-
-
-
-            // =================================
-            // EMAIL VERIFICATION CHECK
-            // =================================
-
             if (!user.emailVerified) {
-
 
                 msg.innerText =
                     "Sending verification email...";
 
-
                 msg.style.color =
                     "orange";
 
-
-
-                // Send verification email
-
                 await sendEmailVerification(user);
-
-
 
                 msg.innerText =
                     "Verification email sent! Check your email and verify it.";
 
-                
-                msg.style.color =
-                    "orange";
-
-
-
-                // Logout unverified user
-
                 await signOut(auth);
 
-
-
                 return;
-
             }
 
-
-
-            // =================================
-            // EMAIL VERIFIED
-            // =================================
 
             msg.innerText =
                 "Login successful!";
 
-
             msg.style.color =
                 "lightgreen";
 
-
-
-            // =================================
-            // GO TO AFTER LOGIN
-            // =================================
 
             setTimeout(
                 () => {
@@ -418,28 +355,19 @@ loginForm.addEventListener(
                 500
             );
 
-
         }
 
 
-
         catch(error) {
-
 
             console.error(
                 "Firebase error:",
                 error
             );
 
-
             msg.style.color =
                 "red";
 
-
-
-            // =================================
-            // ERROR MESSAGES
-            // =================================
 
             if (
                 error.code ===
@@ -451,7 +379,6 @@ loginForm.addEventListener(
 
             }
 
-
             else if (
                 error.code ===
                 "auth/too-many-requests"
@@ -461,7 +388,6 @@ loginForm.addEventListener(
                     "Bhai thoda der baad try karo.";
 
             }
-
 
             else if (
                 error.code ===
@@ -473,7 +399,6 @@ loginForm.addEventListener(
 
             }
 
-
             else if (
                 error.code ===
                 "auth/quota-exceeded"
@@ -483,7 +408,6 @@ loginForm.addEventListener(
                     "Email verification limit reached. Try again later.";
 
             }
-
 
             else {
 
@@ -498,7 +422,6 @@ loginForm.addEventListener(
 );
 
 </script>
-
 
 </body>
 
