@@ -1,11 +1,11 @@
-// 1. सही Firebase CDN Imports (v10+ सुरक्षित लिंक्स)
+// 1. Sahi Firebase CDN Imports (v10+ Fully Supported Links)
 import { initializeApp } from "https://gstatic.com";
 import { getFirestore, doc, getDoc, updateDoc } from "https://gstatic.com";
 
-// आपकी सुधरी हुई Firebase config डिटेल्स
+// Aapki Firebase config details
 const firebaseConfig = {
     apiKey: "AIzaSyAj-LOc7fbr1xFs_iNxFwyULwrBUKI-r4k",
-    authDomain: "donvai-281a0.firebaseapp.com", // यहाँ आईडी ठीक कर दी है
+    authDomain: "donvai-281a0.firebaseapp.com",
     projectId: "donvai-281a0",
     storageBucket: "donvai-281a0.firebasestorage.app",
     messagingSenderId: "19064202332",
@@ -29,14 +29,13 @@ function generateCaptcha() {
     }
     currentCaptcha = captcha;
     
-    // HTML एलिमेंट सुरक्षा चेक
     const captchaElem = document.getElementById("captchaText");
     if(captchaElem) {
         captchaElem.textContent = captcha;
     }
 }
 
-// पेज लोड होते ही कैप्चा लोड करना और बटन बाइंडिंग
+// Page load hote hi captcha trigger aur refresh action binding
 document.addEventListener("DOMContentLoaded", () => {
     generateCaptcha();
     const refreshBtn = document.getElementById("refreshBtn");
@@ -194,7 +193,7 @@ function showError(msg) {
     }
 }
 
-// --- 5. Realtime Decrement Countdown Loop for Auto Logout Window (FIXED) ---
+// --- 5. Realtime Decrement Countdown Loop for Auto Logout ---
 function startAutoLogoutCounter(loginTimestamp) {
     const banner = document.getElementById("logoutCountdownBanner");
     if(banner) banner.style.display = "block";
@@ -202,23 +201,27 @@ function startAutoLogoutCounter(loginTimestamp) {
     const logoutInterval = setInterval(() => {
         const now = new Date().getTime();
         const timePassed = now - Number(loginTimestamp);
-        const totalSessionTime = 5 * 60 * 1000; // 5 Mins
+        const totalSessionTime = 5 * 60 * 1000; // 5 minute dynamic tracking
         const timeLeft = totalSessionTime - timePassed;
 
         if (timeLeft <= 0) {
             clearInterval(logoutInterval);
             sessionStorage.clear();
-            alert("Security Protocol Triggered: Idle session exceeded 5 minutes threshold. Auto-logout processed.");
-            window.location.href = "index.html";
+            alert("Security Protocol Triggered: Session threshold exceeded. Auto-logout processed.");
+            window.location.href = "index2.html";
         } else {
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-            
-            // अगर आपके पास टाइमर दिखाने के लिए कोई टेक्स्ट स्पैन है तो:
-            const countElem = document.getElementById("logoutTimerText");
-            if(countElem) {
-                countElem.textContent = `${minutes}m ${seconds}s`;
+            if(banner) {
+                banner.textContent = `Time remaining for Auto-Logout: ${minutes}m ${seconds}s`;
             }
         }
     }, 1000);
+
+    setTimeout(() => {
+        const target = sessionStorage.getItem("targetPage");
+        if(target) {
+            window.location.href = target;
+        }
+    }, 4000);
 }
