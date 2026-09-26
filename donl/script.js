@@ -19,7 +19,7 @@ import {
 // ==========================================
 
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
+    apiKey: "AIzaSyAj-LOc7fbr1xFs_iNxFwyULwrBUKI-r4k",
     authDomain: "donvai-281a0.firebaseapp.com",
     projectId: "donvai-281a0",
     storageBucket: "donvai-281a0.firebasestorage.app",
