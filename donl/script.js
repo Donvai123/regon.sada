@@ -1,11 +1,11 @@
-// 1. Sahi Firebase CDN Imports (v10+ Fully Supported Links) - FIXED
+// 1. Sahi Firebase CDN Imports (v10+ Fully Supported Links) - FULLY FIXED
 import { initializeApp } from "https://gstatic.com";
 import { getFirestore, doc, getDoc, updateDoc } from "https://gstatic.com";
 
-// Aapki Firebase config details
+// Aapki actual Firebase config details jo GitHub page se links hain
 const firebaseConfig = {
     apiKey: "AIzaSyAj-LOc7fbr1xFs_iNxFwyULwrBUKI-r4k",
-    authDomain: "donvai-281a0.firebaseapp.com",
+    authDomain: "://firebaseapp.com",
     projectId: "donvai-281a0",
     storageBucket: "donvai-281a0.firebasestorage.app",
     messagingSenderId: "19064202332",
@@ -35,7 +35,7 @@ function generateCaptcha() {
     }
 }
 
-// Page load hote hi captcha trigger aur refresh action binding
+// Page load hote hi captcha trigger aur refresh button binding - SAFE CODING
 document.addEventListener("DOMContentLoaded", () => {
     generateCaptcha();
     const refreshBtn = document.getElementById("refreshBtn");
@@ -67,10 +67,10 @@ const systemTimerInterval = setInterval(() => {
     }
 }, 1000);
 
-// 12-hour lockouts trigger
+// Global function triggers 12-hour instant lockouts on security breach
 async function trigger12HourLockout() {
     const currentTime = new Date().getTime();
-    const lockoutTime = currentTime + (12 * 60 * 60 * 1000);
+    const lockoutTime = currentTime + (12 * 60 * 60 * 1000); // 12 ghante milliseconds me
     if (globalUserRef) {
         await updateDoc(globalUserRef, {
             lockoutUntil: lockoutTime.toString()
@@ -108,7 +108,7 @@ if(loginForm) {
 
             globalUserData = userDocSnap.data();
 
-            // 12-Hour Lock Checking block
+            // 12-Hour Lock Checking validation
             if (globalUserData.lockoutUntil && currentTime < Number(globalUserData.lockoutUntil)) {
                 const timeLeft = Number(globalUserData.lockoutUntil) - currentTime;
                 const hoursLeft = Math.ceil(timeLeft / (1000 * 60 * 60));
@@ -116,7 +116,7 @@ if(loginForm) {
                 return;
             }
 
-            // 24-Hour Per-Day Single Login Limit
+            // 24-Hour Per-Day Single Login Limit Rule
             if (globalUserData.lastLoginTime) {
                 const timeSinceLastLogin = currentTime - Number(globalUserData.lastLoginTime);
                 if (timeSinceLastLogin < (24 * 60 * 60 * 1000)) {
@@ -126,7 +126,7 @@ if(loginForm) {
                 }
             }
 
-            // Verify password
+            // Password Verify logic
             if (globalUserData.password === passwordInput) {
                 document.getElementById("step1-wrapper").classList.add("hidden");
                 document.getElementById("step2-wrapper").classList.remove("hidden");
@@ -143,7 +143,7 @@ if(loginForm) {
     });
 }
 
-// --- 4. STEP 2 Form Submission (Security Questions) ---
+// --- 4. STEP 2 Form Submission (3 Security Questions Challenge Checker) ---
 const securityForm = document.getElementById("securityForm");
 if(securityForm) {
     securityForm.addEventListener("submit", async (e) => {
@@ -160,6 +160,7 @@ if(securityForm) {
         const correctBirthAddress = globalUserData.birthAddress.trim().toLowerCase();
 
         if (ansDob === correctDob && ansRelation === correctRelation && ansBirthAddress === correctBirthAddress) {
+            // SUCCESSFUL LOGIN COMPLETE PROCESS
             const currentTime = new Date().getTime();
             await updateDoc(globalUserRef, {
                 lockoutUntil: "",
@@ -176,6 +177,7 @@ if(securityForm) {
             startAutoLogoutCounter(currentTime);
 
         } else {
+            // Ek bhi galat jawab hone par direct 12 ghante block thread trigger
             await trigger12HourLockout();
             document.getElementById("step2-wrapper").classList.add("hidden");
             document.getElementById("step1-wrapper").classList.remove("hidden");
@@ -193,7 +195,7 @@ function showError(msg) {
     }
 }
 
-// --- 5. Realtime Decrement Countdown Loop for Auto Logout (FIXED & COMPLETED) ---
+// --- 5. Realtime Decrement Countdown Loop for Auto Logout (FULLY COMPLETED) ---
 function startAutoLogoutCounter(loginTimestamp) {
     const banner = document.getElementById("logoutCountdownBanner");
     if(banner) banner.style.display = "block";
@@ -201,13 +203,13 @@ function startAutoLogoutCounter(loginTimestamp) {
     const logoutInterval = setInterval(() => {
         const now = new Date().getTime();
         const timePassed = now - Number(loginTimestamp);
-        const totalSessionTime = 5 * 60 * 1000; // 5 Minutes in Milliseconds
+        const totalSessionTime = 5 * 60 * 1000; // 5 Minutes matrix
         const timeLeft = totalSessionTime - timePassed;
 
         if (timeLeft <= 0) {
             clearInterval(logoutInterval);
             sessionStorage.clear();
-            alert("Security Protocol Triggered: Session threshold exceeded. Auto-logout processed.");
+            alert("Security Protocol Triggered: Idle session exceeded 5 minutes threshold. Auto-logout processed.");
             window.location.href = "index2.html";
         } else {
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
@@ -218,7 +220,7 @@ function startAutoLogoutCounter(loginTimestamp) {
         }
     }, 1000);
 
-    // 4 Seconds baad final URL par automatically redirect karne ke liye
+    // 4 Seconds display status banner ke baad user ke dynamic link par redirection trigger
     setTimeout(() => {
         const target = sessionStorage.getItem("targetPage");
         if(target) {
@@ -227,9 +229,7 @@ function startAutoLogoutCounter(loginTimestamp) {
     }, 4000);
 }
 
-// Session retention settings if page reloads
+// Session retention logic code block if user forcefully reloads page
 if (sessionStorage.getItem("loginActive") === "true") {
     document.getElementById("step1-wrapper").classList.add("hidden");
     document.getElementById("dashboard-wrapper").classList.remove("hidden");
-    startAutoLogoutCounter(sessionStorage.getItem("loginTime"));
-}
