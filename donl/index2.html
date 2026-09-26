@@ -1,77 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Family Secure Access Gateway</title>
-    <!-- CSS link check karein ki style.css bhi same isi sub-folder me ho -->
+
+    <!-- CSS -->
     <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
 
-<!-- 2027 System Opening Countdown Window -->
-<div class="countdown-container" id="systemTimer">Loading Secure Connection Gateway...</div>
+    <!-- =========================================
+         2027 SYSTEM OPENING COUNTDOWN
+    ========================================== -->
 
-<div class="login-container">
-    <!-- Live Auto Logout Count Banner -->
-    <div id="logoutCountdownBanner" class="logout-banner"></div>
-
-    <!-- STEP 1: Main Gateway Auth Form -->
-    <div id="step1-wrapper">
-        <h2>Regons Family Identity Gateway</h2>
-        <div class="sub-header">Fill all neccesary details</div>
-        <form id="loginForm">
-            <div class="input-group">
-                <input type="text" id="username" placeholder="Gateway Identifier (Username)" required>
-            </div>
-            <div class="input-group">
-                <input type="password" id="password" placeholder="Access Encryption Crypt (Password)" required>
-            </div>
-            
-            <div class="captcha-row">
-                <div class="captcha-box" id="captchaText">XXXXXX</div>
-                <div class="refresh-captcha" id="refreshBtn">🔄</div>
-            </div>
-            <div class="input-group">
-                <input type="text" id="captchaInput" placeholder="Enter Dynamic Verification Captcha" required>
-            </div>
-
-            <button type="submit">family Verification</button>
-        </form>
+    <div
+        class="countdown-container"
+        id="systemTimer"
+    >
+        Loading Secure Connection Gateway...
     </div>
 
-    <!-- STEP 2: Secondary Crypt Challenge Grid -->
-    <div id="step2-wrapper" class="hidden">
-        <h2>Dynamic 2FA Shield</h2>
-        <div class="sub-header" style="color: #10b981;">✔ Identity matched. Resolve layer 2 crypt parameters:</div>
-        <form id="securityForm">
-            <label>1. Parameter: Registered Date of Birth (DD-MM-YYYY)</label>
-            <input type="text" id="q_dob" placeholder="Execute value" required>
 
-            <label>2. Parameter: Relationship Context Matrix (Regon)</label>
-            <input type="text" id="q_relation" placeholder="Execute value" required>
+    <!-- =========================================
+         MAIN LOGIN CONTAINER
+    ========================================== -->
 
-            <label>3. Parameter: Primordial Birth Localization Address</label>
-            <!-- ID ko JavaScript variable logic se bilkul sahi tarah match kar diya hai -->
-            <input type="text" id="q_birthAddress" placeholder="Execute value" required>
+    <div class="login-container">
 
-            <button type="submit" id="finalSubmitBtn">Authorize Workspace Access</button>
-        </form>
+
+        <!-- =====================================
+             AUTO LOGOUT COUNTDOWN
+        ====================================== -->
+
+        <div
+            id="logoutCountdownBanner"
+            class="logout-banner"
+        ></div>
+
+
+        <!-- =====================================
+             STEP 1
+             FIREBASE AUTHENTICATION
+        ====================================== -->
+
+        <div id="step1-wrapper">
+
+            <h2>
+                Regons Family Identity Gateway
+            </h2>
+
+            <div class="sub-header">
+                Fill all necessary details
+            </div>
+
+
+            <form id="loginForm">
+
+
+                <!-- EMAIL -->
+
+                <div class="input-group">
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Gateway Identifier (Email)"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="input-group">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Access Encryption Crypt (Password)"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CAPTCHA -->
+
+                <div class="captcha-row">
+
+                    <div
+                        class="captcha-box"
+                        id="captchaText"
+                    >
+                        XXXXXX
+                    </div>
+
+                    <div
+                        class="refresh-captcha"
+                        id="refreshBtn"
+                        title="Refresh Captcha"
+                    >
+                        🔄
+                    </div>
+
+                </div>
+
+
+                <!-- CAPTCHA INPUT -->
+
+                <div class="input-group">
+
+                    <input
+                        type="text"
+                        id="captchaInput"
+                        placeholder="Enter Dynamic Verification Captcha"
+                        autocomplete="off"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button type="submit">
+                    Family Verification
+                </button>
+
+            </form>
+
+        </div>
+
+
+
+        <!-- =====================================
+             STEP 2
+             SECURITY QUESTIONS
+        ====================================== -->
+
+        <div
+            id="step2-wrapper"
+            class="hidden"
+        >
+
+            <h2>
+                Dynamic 2FA Shield
+            </h2>
+
+
+            <div
+                class="sub-header"
+                style="color: #10b981;"
+            >
+                ✔ Identity matched. Resolve layer 2 crypt parameters:
+            </div>
+
+
+            <form id="securityForm">
+
+
+                <!-- DOB -->
+
+                <label for="q_dob">
+                    1. Parameter: Registered Date of Birth (DD-MM-YYYY)
+                </label>
+
+                <input
+                    type="text"
+                    id="q_dob"
+                    placeholder="Execute value"
+                    autocomplete="off"
+                    required
+                >
+
+
+                <!-- RELATION -->
+
+                <label for="q_relation">
+                    2. Parameter: Relationship Context Matrix (Regon)
+                </label>
+
+                <input
+                    type="text"
+                    id="q_relation"
+                    placeholder="Execute value"
+                    autocomplete="off"
+                    required
+                >
+
+
+                <!-- BIRTH ADDRESS -->
+
+                <label for="q_birthAddress">
+                    3. Parameter: Primordial Birth Localization Address
+                </label>
+
+                <input
+                    type="text"
+                    id="q_birthAddress"
+                    placeholder="Execute value"
+                    autocomplete="off"
+                    required
+                >
+
+
+                <!-- FINAL BUTTON -->
+
+                <button
+                    type="submit"
+                    id="finalSubmitBtn"
+                >
+                    Authorize Workspace Access
+                </button>
+
+            </form>
+
+        </div>
+
+
+
+        <!-- =====================================
+             STEP 3
+             DEPLOYMENT STATUS
+        ====================================== -->
+
+        <div
+            id="dashboard-wrapper"
+            class="hidden"
+        >
+
+            <h2 style="color: #10b981;">
+                Channel Authorized
+            </h2>
+
+
+            <div class="sub-header">
+                Synchronizing core database tokens...
+            </div>
+
+
+            <p
+                style="
+                    text-align: center;
+                    color: #94a3b8;
+                    font-size: 14px;
+                    margin-top: 20px;
+                "
+            >
+                Redirect engine shifting to user secure zone
+                matrix in moments. Please do not close browser
+                network stream.
+            </p>
+
+        </div>
+
+
+
+        <!-- =====================================
+             ERROR MESSAGE
+        ====================================== -->
+
+        <div
+            id="errorMessage"
+            class="error"
+        ></div>
+
+
     </div>
 
-    <!-- STEP 3: Workspace Deployment Status UI -->
-    <div id="dashboard-wrapper" class="hidden">
-        <h2 style="color: #10b981;">Channel Authorized</h2>
-        <div class="sub-header">Synchronizing core database tokens...</div>
-        <p style="text-align: center; color: #94a3b8; font-size: 14px; margin-top: 20px;">
-            Redirect engine shifting to user secure zone matrix in moments. Please do not close browser network stream.
-        </p>
-    </div>
 
-    <div id="errorMessage" class="error"></div>
-</div>
+    <!-- =========================================
+         FIREBASE JAVASCRIPT
+    ========================================== -->
 
-<!-- Sahi relative path mapping ke sath link -->
-<script type="module" src="./script.js"></script>
+    <script
+        type="module"
+        src="./script.js"
+    ></script>
+
 </body>
+
 </html>
