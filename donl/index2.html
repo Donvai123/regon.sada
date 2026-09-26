@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Secure Access Gateway</title>
+    <!-- External CSS link kiya gaya hai -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 2027 System Opening Countdown Window -->
+<div class="countdown-container" id="systemTimer">Loading Secure Connection Gateway...</div>
+
+<div class="login-container">
+    <!-- Live Auto Logout Count Banner -->
+    <div id="logoutCountdownBanner" class="logout-banner"></div>
+
+    <!-- STEP 1: Main Gateway Auth Form -->
+    <div id="step1-wrapper">
+        <h2>Identity Gateway</h2>
+        <div class="sub-header">Sign in to initialize secure shell channel</div>
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Gateway Identifier (Username)" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Access Encryption Crypt (Password)" required>
+            </div>
+            
+            <div class="captcha-row">
+                <div class="captcha-box" id="captchaText">XXXXXX</div>
+                <div class="refresh-captcha" id="refreshBtn">🔄</div>
+            </div>
+            <div class="input-group">
+                <input type="text" id="captchaInput" placeholder="Enter Dynamic Verification Captcha" required>
+            </div>
+
+            <button type="submit">Initialize Verification</button>
+        </form>
+    </div>
+
+    <!-- STEP 2: Secondary Crypt Challenge Grid -->
+    <div id="step2-wrapper" class="hidden">
+        <h2>Dynamic 2FA Shield</h2>
+        <div class="sub-header" style="color: #10b981;">✔ Identity matched. Resolve layer 2 crypt parameters:</div>
+        <form id="securityForm">
+            <label>1. Parameter: Registered Date of Birth (DD-MM-YYYY)</label>
+            <input type="text" id="q_dob" placeholder="Execute value" required>
+
+            <label>2. Parameter: Relationship Context Matrix (Regon)</label>
+            <input type="text" id="q_relation" placeholder="Execute value" required>
+
+            <label>3. Parameter: Primordial Birth Localization Address</label>
+            <input type="text" id="q_birthAddress" placeholder="Execute value" required>
+
+            <button type="submit" id="finalSubmitBtn">Authorize Workspace Access</button>
+        </form>
+    </div>
+
+    <!-- STEP 3: Workspace Deployment Status UI -->
+    <div id="dashboard-wrapper" class="hidden">
+        <h2 style="color: #10b981;">Channel Authorized</h2>
+        <div class="sub-header">Synchronizing core database tokens...</div>
+        <p style="text-align: center; color: #94a3b8; font-size: 14px; margin-top: 20px;">
+            Redirect engine shifting to user secure zone matrix in moments. Please do not close browser network stream.
+        </p>
+    </div>
+
+    <div id="errorMessage" class="error"></div>
+</div>
+
+<!-- Firebase Modular Architecture Script Sheet Link -->
+<script type="module" src="script.js"></script>
+</body>
+</html>
+
