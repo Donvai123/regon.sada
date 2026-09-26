@@ -1,4 +1,4 @@
-// 1. Sahi Firebase CDN Imports (v10+ Fully Supported Links)
+// 1. Sahi Firebase CDN Imports (v10+ Fully Supported Links) - FIXED
 import { initializeApp } from "https://gstatic.com";
 import { getFirestore, doc, getDoc, updateDoc } from "https://gstatic.com";
 
@@ -193,7 +193,7 @@ function showError(msg) {
     }
 }
 
-// --- 5. Realtime Decrement Countdown Loop for Auto Logout ---
+// --- 5. Realtime Decrement Countdown Loop for Auto Logout (FIXED & COMPLETED) ---
 function startAutoLogoutCounter(loginTimestamp) {
     const banner = document.getElementById("logoutCountdownBanner");
     if(banner) banner.style.display = "block";
@@ -201,7 +201,7 @@ function startAutoLogoutCounter(loginTimestamp) {
     const logoutInterval = setInterval(() => {
         const now = new Date().getTime();
         const timePassed = now - Number(loginTimestamp);
-        const totalSessionTime = 5 * 60 * 1000; // 5 minute dynamic tracking
+        const totalSessionTime = 5 * 60 * 1000; // 5 Minutes in Milliseconds
         const timeLeft = totalSessionTime - timePassed;
 
         if (timeLeft <= 0) {
@@ -218,10 +218,18 @@ function startAutoLogoutCounter(loginTimestamp) {
         }
     }, 1000);
 
+    // 4 Seconds baad final URL par automatically redirect karne ke liye
     setTimeout(() => {
         const target = sessionStorage.getItem("targetPage");
         if(target) {
             window.location.href = target;
         }
     }, 4000);
+}
+
+// Session retention settings if page reloads
+if (sessionStorage.getItem("loginActive") === "true") {
+    document.getElementById("step1-wrapper").classList.add("hidden");
+    document.getElementById("dashboard-wrapper").classList.remove("hidden");
+    startAutoLogoutCounter(sessionStorage.getItem("loginTime"));
 }
