@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Secure Access Gateway</title>
-    <!-- External CSS link kiya gaya hai -->
-    <link rel="stylesheet" href="style.css">
+    <!-- CSS link check karein ki style.css bhi same isi sub-folder me ho -->
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
@@ -52,6 +52,7 @@
             <input type="text" id="q_relation" placeholder="Execute value" required>
 
             <label>3. Parameter: Primordial Birth Localization Address</label>
+            <!-- ID ko JavaScript variable logic se bilkul sahi tarah match kar diya hai -->
             <input type="text" id="q_birthAddress" placeholder="Execute value" required>
 
             <button type="submit" id="finalSubmitBtn">Authorize Workspace Access</button>
@@ -70,8 +71,7 @@
     <div id="errorMessage" class="error"></div>
 </div>
 
-<!-- Firebase Modular Architecture Script Sheet Link -->
-<script type="module" src="script.js"></script>
+<!-- Sahi relative path mapping ke sath link -->
+<script type="module" src="./script.js"></script>
 </body>
 </html>
-
